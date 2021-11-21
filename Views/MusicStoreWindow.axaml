@@ -20,7 +20,7 @@
         </ExperimentalAcrylicBorder>
 
         <Panel Margin="40">
-            Rustler a qeb
+            <TextBlock>Rustler qeb</TextBlock>
         </Panel>
     </Panel>
 </Window>

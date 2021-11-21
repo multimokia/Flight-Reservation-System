@@ -4,34 +4,114 @@
     xmlns:vm="using:A2.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    mc:Ignorable="d"
+    d:DesignWidth="800"
+    d:DesignHeight="450"
+    MinWidth="1000"
+    MinHeight="400"
     x:Class="A2.Views.MainWindow"
     Icon="/Assets/avalonia-logo.ico"
-    Title="A2"
+    Title="Flight Registration"
     TransparencyLevelHint="AcrylicBlur"
     Background="Transparent"
     ExtendClientAreaToDecorationsHint="True"
     WindowStartupLocation="CenterScreen">
+    
+    <Window.Styles>
+        <Style Selector="TabControl">
+            <Setter Property="Background" Value="#51515188"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        </Style>
+        <Style Selector="TabControl WrapPanel">
+            <Setter Property="Background" Value="#22222255"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style Selector="TabItem">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Background" Value="#25252505"/>
+            <Setter Property="Foreground" Value="#F5F5F5"/>
+            <Setter Property="Padding" Value="50 0"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+        </Style>
 
+        <Style Selector="TabItem:focus">
+            <Setter Property="Foreground" Value="#d3812a"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+        </Style>
+        <Style Selector="TabItem:pointerover">
+            <Setter Property="Foreground" Value="#e8a155"/>
+            <Setter Property="Background" Value="#454545"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+        </Style>
+        <Style Selector="TabItem:selected">
+            <Setter Property="Foreground" Value="#d3812a"/>
+            <Setter Property="Background" Value="#343434"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+        </Style>
+        
+        <Style Selector="TextBlock.h1">
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="TabControl.center">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Styles>
+    
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
+    
+    <TabControl>
+        <TabItem Header="Flights">
+            <TabControl TabStripPlacement="Left">
+                <TabItem Header="Add a flight">
+                    <Grid ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto"  Margin="4">
+                        <TextBlock Classes="h1" Text="Flight number:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Padding="50 0" Margin="20"/>
+                        
+                        <TextBlock Classes="h1" Text="Number of Seats:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Padding="50 0" Margin="20"/>
+                        
+                        <TextBlock Classes="h1" Text="Origin Airport:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Padding="50 0" Margin="20"/>
 
-    <Panel>
-        <ExperimentalAcrylicBorder IsHitTestVisible="False">
-            <ExperimentalAcrylicBorder.Material>
-                <ExperimentalAcrylicMaterial
-                    BackgroundSource="Digger"
-                    TintColor="Black"
-                    TintOpacity="0.9"
-                    MaterialOpacity="0.5"/>
-            </ExperimentalAcrylicBorder.Material>
-        </ExperimentalAcrylicBorder>
-        <StackPanel Margin="40">
-            <Button Content="Click meh!" Command="{Binding BuyMusicCommand}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Button Content="Click meh2!" Command="{Binding BuyMusicCommand}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <!--<PathIcon Data="{StaticResource store_microsoft_regular}"/>
-            </Button>-->
-        </StackPanel>
-    </Panel>
+                        <TextBlock Classes="h1" Text="Destination Airport:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Padding="50 0" Margin="20"/>
+                        
+                        <Button Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Width="200" HorizontalAlignment="Center" HorizontalContentAlignment="Center">Submit</Button>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="View all flights"></TabItem>
+                <TabItem Header="View a specific flight"></TabItem>
+                <TabItem Header="Delete a flight"></TabItem>
+            </TabControl>
+        </TabItem>
+        
+        <TabItem Header="Customers">
+            <Grid x:Name="CustomerGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Classes="h1" Grid.Row="0" Text="I am in screm"></TextBlock>
+                <Button Grid.Row="1" Grid.Column="0">Am a screm button</Button>
+            </Grid>
+        </TabItem>
+        
+        <TabItem Header="Bookings">
+            <TextBox Classes="h1">Mlem</TextBox>
+        </TabItem>
+    </TabControl>
 </Window>

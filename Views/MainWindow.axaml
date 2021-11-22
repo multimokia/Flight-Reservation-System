@@ -16,7 +16,7 @@
     Background="Transparent"
     ExtendClientAreaToDecorationsHint="True"
     WindowStartupLocation="CenterScreen">
-    
+
     <Window.Styles>
         <Style Selector="TabControl">
             <Setter Property="Background" Value="#51515188"/>
@@ -51,7 +51,7 @@
             <Setter Property="Background" Value="#343434"/>
             <Setter Property="Margin" Value="0 0 0 0"/>
         </Style>
-        
+
         <Style Selector="TextBlock.h1">
             <Setter Property="FontSize" Value="24"/>
         </Style>
@@ -76,15 +76,16 @@
             <Setter Property="CornerRadius" Value="0 0 7 7"/>
         </Style>
         <Style Selector="Grid">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="ShowGridLines" Value="True"/>
         </Style>
     </Window.Styles>
-    
+
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-    
+
     <TabControl>
         <TabItem Classes="top" Header="Flights">
             <TabControl TabStripPlacement="Left">
@@ -92,25 +93,35 @@
                     <Grid ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto"  Margin="4">
                         <TextBlock Classes="h1" Text="Flight number:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="20" MaxLength="10"/>
-                        
+
                         <TextBlock Classes="h1" Text="Number of Seats:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="20" MaxLength="3"/>
-                        
+
                         <TextBlock Classes="h1" Text="Origin Airport:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="20" MaxLength="50"/>
 
                         <TextBlock Classes="h1" Text="Destination Airport:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="20" MaxLength="50"/>
-                        
+
                         <Button Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Width="200" HorizontalAlignment="Center" HorizontalContentAlignment="Center">Submit</Button>
                     </Grid>
                 </TabItem>
-                <TabItem Header="View all flights"></TabItem>
+                <TabItem Header="View all flights">
+                    <StackPanel>
+                        <Panel>
+                            <TextBlock>Henlo</TextBlock>
+                        </Panel>
+                        <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto" Margin="4">
+                            <Button Grid.Column="0" Grid.Row="0">More details...</Button>
+                            <Button Grid.Column="1" Grid.Row="0" Foreground="#cc0000" Background="#d3685f">Delete</Button>
+                        </Grid>
+                    </StackPanel>
+                </TabItem>
                 <TabItem Header="View a specific flight"></TabItem>
                 <TabItem Header="Delete a flight" Classes="lastChild"></TabItem>
             </TabControl>
         </TabItem>
-        
+
         <TabItem Classes="top" Header="Customers">
             <Grid x:Name="CustomerGrid">
                 <Grid.ColumnDefinitions>
@@ -122,12 +133,12 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                
+
                 <TextBlock Classes="h1" Grid.Row="0" Text="I am in screm"></TextBlock>
                 <Button Grid.Row="1" Grid.Column="0">Am a screm button</Button>
             </Grid>
         </TabItem>
-        
+
         <TabItem Classes="top" Header="Bookings">
             <TextBox Classes="h1">Mlem</TextBox>
         </TabItem>

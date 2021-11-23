@@ -148,7 +148,7 @@
 
                     </Grid>
                 </TabItem>
-                <TabItem Header="View all flights">
+                <TabItem Header="Manage..." Classes="lastChild">
                     <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
                         <ListBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Items="{Binding Items}"/>
                         <TextBlock
@@ -178,8 +178,6 @@
                         <Button Grid.Column="1" Grid.Row="2" Classes="negativeOperation" HorizontalAlignment="Stretch">Delete flight</Button>
                     </Grid>
                 </TabItem>
-                <TabItem Header="View a specific flight"></TabItem>
-                <TabItem Header="Delete a flight" Classes="lastChild"></TabItem>
             </TabControl>
         </TabItem>
 

@@ -11,15 +11,17 @@ namespace A2.ViewModels
     {
         public ReactiveUI.IReactiveCommand BuyMusicCommand {get; }
 
-        public Interaction<MusicStoreViewModel, AlbumViewModel?> ShowDialogue {get; }
+        public Interaction<FullFlightInfoViewModel, AlbumViewModel?> ShowDialogue {get; }
+
+        public List<string> Items { get; set; }
 
         public MainWindowViewModel()
         {
-            ShowDialogue = new Interaction<MusicStoreViewModel, AlbumViewModel?>();
+            ShowDialogue = new Interaction<FullFlightInfoViewModel, AlbumViewModel?>();
 
             BuyMusicCommand = ReactiveCommand.Create(async () =>
             {
-                var store = new MusicStoreViewModel();
+                var store = new FullFlightInfoViewModel();
 
                 var result = await ShowDialogue.Handle(store);
             });

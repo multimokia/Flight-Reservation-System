@@ -7,15 +7,16 @@
     mc:Ignorable="d"
     d:DesignWidth="800"
     d:DesignHeight="450"
-    MinWidth="1000"
-    MinHeight="450"
+    MinWidth="1050"
+    MinHeight="500"
     x:Class="A2.Views.MainWindow"
     Icon="/Assets/avalonia-logo.ico"
     Title="Flight Registration"
     TransparencyLevelHint="AcrylicBlur"
     Background="Transparent"
     ExtendClientAreaToDecorationsHint="True"
-    WindowStartupLocation="CenterScreen">
+    WindowStartupLocation="CenterScreen"
+>
 
     <Window.Styles>
         <Style Selector="TabControl">
@@ -58,7 +59,6 @@
         <Style Selector="TextBox">
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="MinWidth" Value="300"/>
         </Style>
         <Style Selector="TabControl.center">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -78,7 +78,39 @@
         <Style Selector="Grid">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="ShowGridLines" Value="True"/>
+            <Setter Property="ShowGridLines" Value="False"/>
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+
+        <!-- Button Styles -->
+        <Style Selector="Button.positiveOperation">
+            <Setter Property="Background" Value="#58a54c"/>
+        </Style>
+        <Style Selector="Button.positiveOperation:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#6fce61"/>
+        </Style>
+        <Style Selector="Button.positiveOperation:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#6fce61"/>
+        </Style>
+
+        <Style Selector="Button.negativeOperation">
+            <Setter Property="Background" Value="#a54c4c"/>
+        </Style>
+        <Style Selector="Button.negativeOperation:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#dd4444"/>
+        </Style>
+        <Style Selector="Button.negativeOperation:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#dd4444"/>
+        </Style>
+
+        <Style Selector="Button.infoOperation">
+            <Setter Property="Background" Value="#4c7ea5"/>
+        </Style>
+        <Style Selector="Button.infoOperation:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#3f93d3"/>
+        </Style>
+        <Style Selector="Button.infoOperation:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#3f93d3"/>
         </Style>
     </Window.Styles>
 
@@ -90,7 +122,7 @@
         <TabItem Classes="top" Header="Flights">
             <TabControl TabStripPlacement="Left">
                 <TabItem Header="Add a flight" Classes="firstChild">
-                    <Grid ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto"  Margin="4">
+                    <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                         <TextBlock Classes="h1" Text="Flight number:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="20" MaxLength="10"/>
 
@@ -103,19 +135,48 @@
                         <TextBlock Classes="h1" Text="Destination Airport:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="20" MaxLength="50"/>
 
-                        <Button Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Width="200" HorizontalAlignment="Center" HorizontalContentAlignment="Center">Submit</Button>
+                        <Button
+                            Grid.Column="0"
+                            Grid.Row="4"
+                            Grid.ColumnSpan="3"
+                            Classes="positiveOperation"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                        >
+                            Submit
+                        </Button>
+
                     </Grid>
                 </TabItem>
                 <TabItem Header="View all flights">
-                    <StackPanel>
-                        <Panel>
-                            <TextBlock>Henlo</TextBlock>
-                        </Panel>
-                        <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto" Margin="4">
-                            <Button Grid.Column="0" Grid.Row="0">More details...</Button>
-                            <Button Grid.Column="1" Grid.Row="0" Foreground="#cc0000" Background="#d3685f">Delete</Button>
-                        </Grid>
-                    </StackPanel>
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
+                        <ListBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Items="{Binding Items}"/>
+                        <TextBlock
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Grid.ColumnSpan="2"
+                            Grid.RowSpan="2"
+                            IsVisible="{Binding !Items.Count}"
+                            Foreground="red"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                        >
+                            No flights registered.
+                        </TextBlock>
+
+                        <Button
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            Classes="infoOperation"
+                            HorizontalAlignment="Stretch"
+                            Click="_ShowFullFlightInfoDialogue"
+                            IsEnabled="{Binding Items.Count}"
+                        >
+                            More details...
+                        </Button>
+                        <Button Grid.Column="1" Grid.Row="2" Classes="negativeOperation" HorizontalAlignment="Stretch">Delete flight</Button>
+                    </Grid>
                 </TabItem>
                 <TabItem Header="View a specific flight"></TabItem>
                 <TabItem Header="Delete a flight" Classes="lastChild"></TabItem>

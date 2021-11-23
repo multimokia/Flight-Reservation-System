@@ -1,6 +1,6 @@
 namespace A2.ViewModels
 {
-    public class MusicStoreViewModel
+    public class FullFlightInfoViewModel
     {
 
     }

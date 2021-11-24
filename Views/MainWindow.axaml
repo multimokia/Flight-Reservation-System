@@ -124,16 +124,45 @@
                 <TabItem Header="Add a flight" Classes="firstChild">
                     <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                         <TextBlock Classes="h1" Text="Flight number:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="20" MaxLength="10"/>
+                        <TextBox
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Grid.ColumnSpan="2"
+                            Margin="20"
+                            MaxLength="10"
+                            Name="FlightNumber"
+                            Text="{Binding FlightNumber}"
+                        />
 
                         <TextBlock Classes="h1" Text="Number of Seats:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="20" MaxLength="3"/>
+                        <TextBox
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            Margin="20"
+                            MaxLength="3"
+                            Name="NumSeats"
+                        />
 
                         <TextBlock Classes="h1" Text="Origin Airport:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="20" MaxLength="50"/>
+                        <TextBox
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            Margin="20"
+                            MaxLength="50"
+                            Name="OriginAirport"
+                        />
 
                         <TextBlock Classes="h1" Text="Destination Airport:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="20" MaxLength="50"/>
+                        <TextBox
+                            Grid.Column="1"
+                            Grid.Row="3"
+                            Grid.ColumnSpan="2"
+                            Margin="20"
+                            MaxLength="50"
+                            Name="DestinationAirport"
+                        />
 
                         <Button
                             Grid.Column="0"
@@ -142,21 +171,36 @@
                             Classes="positiveOperation"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Center"
+                            Click="_addFlightButton"
                         >
                             Submit
                         </Button>
-
                     </Grid>
                 </TabItem>
                 <TabItem Header="Manage..." Classes="lastChild">
                     <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
-                        <ListBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Items="{Binding Items}"/>
+                        <ListBox
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Grid.ColumnSpan="2"
+                            Grid.RowSpan="2"
+                            SelectionMode="Single"
+                            Items="{Binding Flights}"
+                        >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#3f3f3f66" CornerRadius="4" Padding="4">
+                                        <TextBlock Text="{Binding MenuPrompt }"/>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                         <TextBlock
                             Grid.Column="0"
                             Grid.Row="0"
                             Grid.ColumnSpan="2"
                             Grid.RowSpan="2"
-                            IsVisible="{Binding !Items.Count}"
+                            IsVisible="{Binding !Flights.Length}"
                             Foreground="red"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -170,8 +214,6 @@
                             Grid.Row="2"
                             Classes="infoOperation"
                             HorizontalAlignment="Stretch"
-                            Click="_ShowFullFlightInfoDialogue"
-                            IsEnabled="{Binding Items.Count}"
                         >
                             More details...
                         </Button>

@@ -1,0 +1,4 @@
+root = true
+
+[*]
+disable_formatter=true

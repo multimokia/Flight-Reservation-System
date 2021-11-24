@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -9,7 +10,7 @@ using Avalonia.ReactiveUI;
 
 namespace A2.Views
 {
-    public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
+    public class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
         public MainWindow()
         {
@@ -35,9 +36,27 @@ namespace A2.Views
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void _ShowFullFlightInfoDialogue(object? sender, RoutedEventArgs e)
+        private void _addFlightButton(object? sender, RoutedEventArgs e)
         {
-            throw new System.NotImplementedException();
+            TextBox flightNum = this.FindControl<TextBox>("FlightNumber");
+            TextBox numSeats = this.FindControl<TextBox>("NumSeats");
+            TextBox originAirport = this.FindControl<TextBox>("OriginAirport");
+            TextBox destinationAirport = this.FindControl<TextBox>("DestinationAirport");
+
+            if (
+                MainWindowViewModel.Coordinator.AddFlight(
+                    Convert.ToInt32(flightNum.Text),
+                    Convert.ToInt32(numSeats.Text),
+                    originAirport.Text,
+                    destinationAirport.Text
+                )
+            )
+            {
+                flightNum.Text = "";
+                numSeats.Text = "";
+                originAirport.Text = "";
+                destinationAirport.Text = "";
+            }
         }
     }
 }

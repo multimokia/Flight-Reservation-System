@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Library
 {
-    class AirlineCoordinator
+    public class AirlineCoordinator
     {
         FlightManager _flightManager;
         CustomerManager _customerManager;

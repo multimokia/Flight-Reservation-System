@@ -2,44 +2,46 @@ using System.Collections.Generic;
 
 namespace Library
 {
-    class Flight
+    public class Flight
     {
         /// <summary>
         /// The flight number
         /// </summary>
-        private int _flightNumber;
-        public int FlightNumber {get { return _flightNumber; }}
+        //private int _flightNumber;
+        public int FlightNumber {get; init;}
 
 
         /// <summary>
         /// The origin airport of the flight.
         /// </summary>
-        private string _originAirport;
-        public string OriginAirport {get { return _originAirport; }}
+        //private string _originAirport;
+        public string OriginAirport {get; init;}
 
         /// <summary>
         /// The destination airport of the flight.
         /// </summary>
-        private string _destinationAirport;
-        public string DestinationAirport {get { return _destinationAirport; }}
+        //private string _destinationAirport;
+        public string DestinationAirport {get; init;}
 
         /// <summary>
         /// The maximum number of passengers that can be on the flight.
         /// </summary>
-        private int _maxPassengers;
-        public int MaxSeats {get { return _maxPassengers; }}
+        //private int _maxPassengers;
+        public int MaxSeats {get; init;}
 
         /// <summary>
         /// Map of passenger id -> passenger
         /// </summary>
         private Dictionary<string, Customer> _passengers;
 
+        public string MenuPrompt => $"{this.FlightNumber.ToString()}: {this.OriginAirport} -> {this.DestinationAirport}";
+
         public Flight(int flightNumber, int maxSeats, string origin, string destination)
         {
-            _flightNumber = flightNumber;
-            _maxPassengers = maxSeats;
-            _originAirport = origin;
-            _destinationAirport = destination;
+            FlightNumber = flightNumber;
+            MaxSeats = maxSeats;
+            OriginAirport = origin;
+            DestinationAirport = destination;
             _passengers = new Dictionary<string, Customer>();
         }
 
@@ -60,7 +62,7 @@ namespace Library
         public bool AddPassenger(Customer customer)
         {
             //Reject if we're maxed out on seats
-            if (GetNumPassengers() >= _maxPassengers)
+            if (GetNumPassengers() >= MaxSeats)
                 { return false; }
 
             //Otherwise add
@@ -82,7 +84,7 @@ namespace Library
         }
 
         /// <summary>
-        /// Removes a passenger from the flight. Returns false if nothin was removed.
+        /// Removes a passenger from the flight. Returns false if nothing was removed.
         /// </summary>
         /// <param name="customerId">Id of the customer to remove</param>
         /// <returns>true if removed successfully, false otherwise</returns>
@@ -98,20 +100,14 @@ namespace Library
         /// <returns>A string list of all passengers on the flight</returns>
         public string GetPassengerList(string additionalIndent="")
         {
-            string rv = $"\n{additionalIndent}Passengers on flight " + _flightNumber + ":";
+            if (_passengers.Count == 0)
+                { return "None"; }
+
+            string rv = $"\n{additionalIndent}Passengers on flight " + FlightNumber + ":";
             foreach (Customer customer in _passengers.Values)
                 { rv += $"\n\t{additionalIndent}{customer.FirstName} {customer.LastName}"; }
 
             return rv;
-        }
-
-        /// <summary>
-        /// Menu prompt for use in Menu calls
-        /// </summary>
-        /// <returns>A MenuOption prompt for this type</returns>
-        public string GetMenuPrompt()
-        {
-            return $"{this.FlightNumber.ToString()}: {this.OriginAirport} -> {this.DestinationAirport}";
         }
 
         /// <summary>
@@ -121,12 +117,8 @@ namespace Library
         public override string ToString()
         {
             return (
-                $"Flight: {_flightNumber}"
-                + $"\n\tOrigin: {_originAirport}"
-                + $"\n\tDestination: {_destinationAirport}"
-                + $"\n\tNumber of Passengers: {GetNumPassengers()}"
-                + $"\n\tAvailable seats: {(_maxPassengers - GetNumPassengers())}"
-                + $"{GetPassengerList("\t")}"
+                $"Flight: {FlightNumber}: From {OriginAirport} to {DestinationAirport}. Number of Passengers: {GetNumPassengers()} Available seats: {(MaxSeats - GetNumPassengers())}"
+                + $"\nPassengers on board: {GetPassengerList("\t")}"
             );
         }
     }

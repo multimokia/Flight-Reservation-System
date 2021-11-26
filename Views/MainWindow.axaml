@@ -17,103 +17,6 @@
     ExtendClientAreaToDecorationsHint="True"
     WindowStartupLocation="CenterScreen"
 >
-
-    <Window.Styles>
-        <Style Selector="TabControl">
-            <Setter Property="Background" Value="#51515188"/>
-            <Setter Property="CornerRadius" Value="5"/>
-            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-            <Setter Property="Padding" Value="10"></Setter>
-        </Style>
-        <Style Selector="TabControl WrapPanel">
-            <Setter Property="Background" Value="#22222255"/>
-            <Setter Property="Margin" Value="5"/>
-        </Style>
-        <Style Selector="TabItem">
-            <Setter Property="FontSize" Value="24"/>
-            <Setter Property="Height" Value="36"/>
-            <Setter Property="Background" Value="#25252505"/>
-            <Setter Property="Foreground" Value="#F5F5F5"/>
-            <Setter Property="Padding" Value="50 0"/>
-            <Setter Property="Margin" Value="0 0 0 0"/>
-        </Style>
-
-        <Style Selector="TabItem:focus">
-            <Setter Property="Foreground" Value="#d3812a"/>
-            <Setter Property="Margin" Value="0 0 0 0"/>
-        </Style>
-        <Style Selector="TabItem:pointerover">
-            <Setter Property="Foreground" Value="#e8a155"/>
-            <Setter Property="Background" Value="#454545"/>
-            <Setter Property="Margin" Value="0 0 0 0"/>
-        </Style>
-        <Style Selector="TabItem:selected">
-            <Setter Property="Foreground" Value="#d3812a"/>
-            <Setter Property="Background" Value="#343434"/>
-            <Setter Property="Margin" Value="0 0 0 0"/>
-        </Style>
-
-        <Style Selector="TextBlock.h1">
-            <Setter Property="FontSize" Value="24"/>
-        </Style>
-        <Style Selector="TextBox">
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-        <Style Selector="TabControl.center">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        </Style>
-        <Style Selector="TabItem.top">
-            <Setter Property="CornerRadius" Value="5 5 0 0 "/>
-        </Style>
-        <Style Selector="TabItem.list">
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        </Style>
-        <Style Selector="TabItem.firstChild">
-            <Setter Property="CornerRadius" Value="7 7 0 0"/>
-        </Style>
-        <Style Selector="TabItem.lastChild">
-            <Setter Property="CornerRadius" Value="0 0 7 7"/>
-        </Style>
-        <Style Selector="Grid">
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="ShowGridLines" Value="False"/>
-            <Setter Property="Margin" Value="4"/>
-        </Style>
-
-        <!-- Button Styles -->
-        <Style Selector="Button.positiveOperation">
-            <Setter Property="Background" Value="#58a54c"/>
-        </Style>
-        <Style Selector="Button.positiveOperation:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#6fce61"/>
-        </Style>
-        <Style Selector="Button.positiveOperation:pressed /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#6fce61"/>
-        </Style>
-
-        <Style Selector="Button.negativeOperation">
-            <Setter Property="Background" Value="#a54c4c"/>
-        </Style>
-        <Style Selector="Button.negativeOperation:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#dd4444"/>
-        </Style>
-        <Style Selector="Button.negativeOperation:pressed /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#dd4444"/>
-        </Style>
-
-        <Style Selector="Button.infoOperation">
-            <Setter Property="Background" Value="#4c7ea5"/>
-        </Style>
-        <Style Selector="Button.infoOperation:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#3f93d3"/>
-        </Style>
-        <Style Selector="Button.infoOperation:pressed /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#3f93d3"/>
-        </Style>
-    </Window.Styles>
-
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
@@ -130,7 +33,6 @@
                             Grid.ColumnSpan="2"
                             Margin="20"
                             MaxLength="10"
-                            Name="FlightNumber"
                             Text="{Binding FlightNumber}"
                         />
 
@@ -141,7 +43,7 @@
                             Grid.ColumnSpan="2"
                             Margin="20"
                             MaxLength="3"
-                            Name="NumSeats"
+                            Text="{Binding NumberOfSeats}"
                         />
 
                         <TextBlock Classes="h1" Text="Origin Airport:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"/>
@@ -151,7 +53,7 @@
                             Grid.ColumnSpan="2"
                             Margin="20"
                             MaxLength="50"
-                            Name="OriginAirport"
+                            Text="{Binding OriginAirport}"
                         />
 
                         <TextBlock Classes="h1" Text="Destination Airport:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"/>
@@ -161,7 +63,7 @@
                             Grid.ColumnSpan="2"
                             Margin="20"
                             MaxLength="50"
-                            Name="DestinationAirport"
+                            Text="{Binding DestinationAirport}"
                         />
 
                         <Button
@@ -171,54 +73,57 @@
                             Classes="positiveOperation"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Center"
-                            Click="_addFlightButton"
+                            Command="{Binding AddFlight}"
+                            CommandParameter="something"
                         >
                             Submit
                         </Button>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Manage..." Classes="lastChild">
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
-                        <ListBox
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            Grid.ColumnSpan="2"
-                            Grid.RowSpan="2"
-                            SelectionMode="Single"
-                            Items="{Binding Flights}"
-                        >
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Background="#3f3f3f66" CornerRadius="4" Padding="4">
-                                        <TextBlock Text="{Binding MenuPrompt }"/>
-                                    </Border>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <TextBlock
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            Grid.ColumnSpan="2"
-                            Grid.RowSpan="2"
-                            IsVisible="{Binding !Flights.Length}"
-                            Foreground="red"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="20"
-                        >
-                            No flights registered.
-                        </TextBlock>
-
-                        <Button
-                            Grid.Column="0"
-                            Grid.Row="2"
-                            Classes="infoOperation"
-                            HorizontalAlignment="Stretch"
-                        >
-                            More details...
-                        </Button>
-                        <Button Grid.Column="1" Grid.Row="2" Classes="negativeOperation" HorizontalAlignment="Stretch">Delete flight</Button>
-                    </Grid>
+                    <ScrollViewer>
+                        <StackPanel VerticalAlignment="Stretch">
+                            <ListBox
+                                Items="{Binding Flights}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                            >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#3f3f3f66" CornerRadius="4" Padding="10" HorizontalAlignment="Stretch">
+                                            <Expander HorizontalContentAlignment="Stretch" Background="#00000000">
+                                                <Expander.Header>
+                                                    <TextBlock Text="{Binding MenuPrompt}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                                </Expander.Header>
+                                                <Grid RowDefinitions="*" ColumnDefinitions="9*,*">
+                                                    <TextBlock Grid.Column="0" Text="{Binding}"/>
+                                                    <Button
+                                                        Grid.Column="1"
+                                                        Classes="negativeOperation"
+                                                        ToolTip.Tip="Delete flight"
+                                                        HorizontalAlignment="Right"
+                                                        Command="{Binding $parent[Window].DataContext.DeleteFlight}"
+                                                        CommandParameter="{Binding}"
+                                                    >
+                                                        <PathIcon Data="{StaticResource delete_regular}"/>
+                                                    </Button>
+                                                </Grid>
+                                            </Expander>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <TextBlock
+                                IsVisible="{Binding !Flights.Length}"
+                                Foreground="red"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                            >
+                                No flights registered.
+                            </TextBlock>
+                        </StackPanel>
+                    </ScrollViewer>
                 </TabItem>
             </TabControl>
         </TabItem>

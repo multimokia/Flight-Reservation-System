@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Library
+namespace A2.Models
 {
     public class Flight
     {
@@ -117,8 +117,11 @@ namespace Library
         public override string ToString()
         {
             return (
-                $"Flight: {FlightNumber}: From {OriginAirport} to {DestinationAirport}. Number of Passengers: {GetNumPassengers()} Available seats: {(MaxSeats - GetNumPassengers())}"
-                + $"\nPassengers on board: {GetPassengerList("\t")}"
+                $"Flight: {FlightNumber}:"
+                + $"\n    From {OriginAirport} to {DestinationAirport}."
+                + $"\n    Number of Passengers: {GetNumPassengers()} "
+                + $"\n    Available seats: {(MaxSeats - GetNumPassengers())}"
+                + $"\n    Passengers on board: {GetPassengerList("    ")}"
             );
         }
     }

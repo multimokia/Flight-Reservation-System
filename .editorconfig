@@ -2,3 +2,6 @@ root = true
 
 [*]
 disable_formatter=true
+ij_any_indent_case_from_switch = false
+indent_style = space
+indent_size = 4

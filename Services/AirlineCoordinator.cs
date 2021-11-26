@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Library
+using A2.Models;
+using Library.Errors;
+
+namespace A2.Services
 {
     public class AirlineCoordinator
     {
@@ -82,7 +85,7 @@ namespace Library
         {
             try
                 { _customerManager.AddCustomer(firstName, lastName, phoneNumber); }
-            catch (Errors.DuplicateCustomerException)
+            catch (DuplicateCustomerException)
                 { return false; }
 
             _customerManager.Save();
@@ -142,7 +145,7 @@ namespace Library
                 flight.AddPassenger(customer);
             }
 
-            catch (Errors.DuplicateBookingException)
+            catch (DuplicateBookingException)
                 { return false; }
 
             //Save all changes

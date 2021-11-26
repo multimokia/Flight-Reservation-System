@@ -1,7 +1,8 @@
 using System;
 
 using static Library.Utilities.Utilities;
-namespace Library
+
+namespace A2.Models
 {
     public class Booking
     {

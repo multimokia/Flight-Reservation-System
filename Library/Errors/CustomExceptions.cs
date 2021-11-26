@@ -1,5 +1,7 @@
 using System;
 
+using A2.Models;
+
 namespace Library.Errors
 {
     public class FlightNotFoundException : Exception

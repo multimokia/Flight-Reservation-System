@@ -8,6 +8,7 @@ using Avalonia.Interactivity;
 using ReactiveUI;
 using Avalonia.ReactiveUI;
 
+using Library;
 namespace A2.Views
 {
     public class MainWindow : ReactiveWindow<MainWindowViewModel>
@@ -18,17 +19,6 @@ namespace A2.Views
             #if DEBUG
             this.AttachDevTools();
             #endif
-
-            this.WhenActivated(d => d(ViewModel!.ShowDialogue.RegisterHandler(DoShowDialogueAsync)));
-        }
-
-        private async Task DoShowDialogueAsync(InteractionContext<FullFlightInfoViewModel, AlbumViewModel?> interaction)
-        {
-            var dialogue = new MusicStoreWindow();
-            dialogue.DataContext = interaction.Input;
-
-            var result = await dialogue.ShowDialog<AlbumViewModel?>(this);
-            interaction.SetOutput(result);
         }
 
         private void InitializeComponent()
@@ -57,6 +47,11 @@ namespace A2.Views
                 originAirport.Text = "";
                 destinationAirport.Text = "";
             }
+        }
+
+        private async Task ShowDialogueAsync()
+        {
+
         }
     }
 }

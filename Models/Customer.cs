@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 using static Library.Utilities.Utilities;
 
-namespace Library
+namespace A2.Models
 {
     public class Customer
     {

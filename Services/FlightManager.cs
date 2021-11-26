@@ -4,7 +4,10 @@ using System.IO;
 
 using Library.Errors;
 using static Library.Utilities.Persistence;
-namespace Library
+
+using A2.Models;
+
+namespace A2.Services
 {
     class FlightManager : IPersistable
     {

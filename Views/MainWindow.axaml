@@ -85,6 +85,7 @@
                     <ScrollViewer>
                         <StackPanel VerticalAlignment="Stretch">
                             <ListBox
+                                IsVisible="{Binding Flights.Length}"
                                 Items="{Binding Flights}"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
@@ -180,6 +181,7 @@
                     <ScrollViewer>
                         <StackPanel VerticalAlignment="Stretch">
                             <ListBox
+                                IsVisible="{Binding Customers.Length}"
                                 Items="{Binding Customers}"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
@@ -216,7 +218,7 @@
                                 VerticalAlignment="Center"
                                 FontSize="20"
                             >
-                                No flights registered.
+                                No customers registered.
                             </TextBlock>
                         </StackPanel>
                     </ScrollViewer>
@@ -291,6 +293,7 @@
                     <ScrollViewer>
                         <StackPanel VerticalAlignment="Stretch">
                             <ListBox
+                                IsVisible="{Binding Bookings.Length}"
                                 Items="{Binding Bookings}"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
@@ -307,9 +310,9 @@
                                                     <Button
                                                         Grid.Column="1"
                                                         Classes="negativeOperation"
-                                                        ToolTip.Tip="Delete this customer"
+                                                        ToolTip.Tip="Delete this booking"
                                                         HorizontalAlignment="Right"
-                                                        Command="{Binding $parent[Window].DataContext.DeleteCustomer}"
+                                                        Command="{Binding $parent[Window].DataContext.DeleteBooking}"
                                                         CommandParameter="{Binding}"
                                                     >
                                                         <PathIcon Data="{StaticResource delete_regular}"/>
@@ -321,13 +324,13 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                             <TextBlock
-                                IsVisible="{Binding !Customers.Length}"
+                                IsVisible="{Binding !Bookings.Length}"
                                 Foreground="red"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontSize="20"
                             >
-                                No flights registered.
+                                No bookings registered.
                             </TextBlock>
                         </StackPanel>
                     </ScrollViewer>

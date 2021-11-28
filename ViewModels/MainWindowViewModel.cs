@@ -303,6 +303,7 @@ namespace A2.ViewModels
             if (
                 SelectedFlight is null
                 || SelectedCustomer is null
+                || SelectedDate == DateTime.MinValue
             )
             {
                 ErrorDialogueViewModel error = new ErrorDialogueViewModel(
@@ -319,14 +320,20 @@ namespace A2.ViewModels
 
             catch (DuplicateBookingException)
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel("Booking already exists.", "Duplicate Booking");
+                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                    "Booking already exists.",
+                    "Duplicate Booking"
+                );
                 await ErrorDialogue.Handle(error);
                 return;
             }
 
             catch (InvalidOperationException)
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel("Flight is fully booked.", "Invalid Operation");
+                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                    "Flight is fully booked.",
+                    "Invalid Operation"
+                );
                 await ErrorDialogue.Handle(error);
                 return;
             }

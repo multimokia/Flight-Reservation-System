@@ -32,7 +32,7 @@ namespace A2.Models
         /// </summary>
         /// <returns>menu option prompt</returns>
         [JsonIgnore]
-        public String MenuPrompt => $"Customer {this.CustomerId} for flight {this.FlightId}. {this.GetBookingDateTime()}";
+        public String MenuPrompt => $"At {this.GetBookingDateTime()} for flight {this.FlightId}.";
 
         public Booking(DateTime date, Flight flight, Customer customer)
         {
@@ -59,7 +59,11 @@ namespace A2.Models
         /// <returns>String representing the booking</returns>
         public override string ToString()
         {
-            return $"{Id} {GetBookingDateTime()} {FlightId} {CustomerId}";
+            return (
+                "Booking:"
+                + $"    On: {GetBookingDateTime()}"
+                + $"    Flightnumber: {FlightId}"
+                + $"    For: {CustomerId}");
         }
     }
 }

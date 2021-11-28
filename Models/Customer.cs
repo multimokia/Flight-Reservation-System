@@ -9,32 +9,27 @@ namespace A2.Models
         /// <summary>
         /// Customer id
         /// </summary>
-        private string _id;
-        public string Id {get { return _id; }}
+        public string Id {get; init;}
 
         /// <summary>
         /// Customer's first name
         /// </summary>
-        private string _firstName;
-        public string FirstName {get { return _firstName; }}
+        public string FirstName {get; init;}
 
         /// <summary>
         /// Customer's last name
         /// </summary>
-        private string _lastName;
-        public string LastName {get { return _lastName; }}
+        public string LastName {get; init;}
 
         /// <summary>
         /// Customer's phone number
         /// </summary>
-        private string _phoneNumber;
-        public string PhoneNumber {get { return _phoneNumber; }}
+        public string PhoneNumber {get; init;}
 
         /// <summary>
         /// A reference to the bookings this customer has
         /// </summary>
-        private List<string> _bookings;
-        public List<string> Bookings {get { return _bookings; }}
+        public List<string> Bookings {get; init;}
 
         /// <summary>
         /// Menu prompt for use in a menuoption
@@ -46,11 +41,11 @@ namespace A2.Models
         {
             //For the sake of easy value comparison, we'll hash the id so we know if two customers
             //share the same info through the value of its id
-            _id = HashString($"{firstName}{lastName}{phoneNumber}".Replace(" ", "").ToLower());
-            _firstName = firstName;
-            _lastName = lastName;
-            _phoneNumber = phoneNumber;
-            _bookings = new List<string>();
+            Id = HashString($"{firstName}{lastName}{phoneNumber}".Replace(" ", "").ToLower());
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+            Bookings = new List<string>();
         }
 
         /// <summary>
@@ -60,8 +55,8 @@ namespace A2.Models
         public void AddBookingReference(string bookingId)
         {
             //Safety check to prevent duplicate data, this should never happen
-            if (!_bookings.Contains(bookingId))
-                { _bookings.Add(bookingId); }
+            if (!Bookings.Contains(bookingId))
+                { Bookings.Add(bookingId); }
         }
 
         /// <summary>
@@ -70,7 +65,7 @@ namespace A2.Models
         /// <param name="bookingId">id of the booking to remove</param>
         public void RemoveBookingReference(string bookingId)
         {
-            _bookings.Remove(bookingId);
+            Bookings.Remove(bookingId);
         }
 
         /// <summary>
@@ -81,9 +76,9 @@ namespace A2.Models
         {
             return (
                 $"Customer:"
-                + $"\n    Name: {_firstName} {_lastName}"
-                + $"\n    Phone Number: {_phoneNumber}"
-                + $"\n    Has {_bookings.Count} bookings"
+                + $"\n    Name: {FirstName} {LastName}"
+                + $"\n    Phone Number: {PhoneNumber}"
+                + $"\n    Has {Bookings.Count} bookings"
             );
         }
     }

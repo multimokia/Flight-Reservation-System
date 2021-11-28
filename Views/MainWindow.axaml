@@ -271,8 +271,8 @@
                                 Grid.Row="2"
                                 Grid.ColumnSpan="2"
                                 Margin="20"
-                                SelectedDate="{Binding SelectedDate}"
                                 HorizontalAlignment="Stretch"
+                                SelectedDate="{Binding SelectedDate}"
                             />
 
                             <Button

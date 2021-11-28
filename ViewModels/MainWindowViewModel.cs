@@ -285,11 +285,24 @@ namespace A2.ViewModels
             set => this.RaiseAndSetIfChanged(ref _bookings, value);
         }
 
-        Flight SelectedFlight {get; set;}
+        public Flight SelectedFlight {get; set;}
 
-        Customer SelectedCustomer {get; set;}
+        public Customer SelectedCustomer {get; set;}
 
-        DateTime SelectedDate {get; set;}
+        private DateTimeOffset _bookingDate;
+        public DateTimeOffset? SelectedDate
+        {
+            get => _bookingDate;
+            set {
+                if (value is null)
+                {
+                    _bookingDate = DateTime.Now;
+                    throw new DataValidationException("Booking date cannot be empty");
+                }
+
+                this.RaiseAndSetIfChanged<MainWindowViewModel, DateTimeOffset>(ref _bookingDate, value.Value);
+            }
+        }
 
         //Interactions and commands
         public ICommand CreateBooking {get;}
@@ -303,7 +316,8 @@ namespace A2.ViewModels
             if (
                 SelectedFlight is null
                 || SelectedCustomer is null
-                || SelectedDate == DateTime.MinValue
+                || SelectedDate is null
+                || SelectedDate == new DateTime(1600, 12, 31)
             )
             {
                 ErrorDialogueViewModel error = new ErrorDialogueViewModel(
@@ -316,7 +330,7 @@ namespace A2.ViewModels
 
             //Now let's check if the flight has room for more bookings
             try
-                { bool isSuccess = Coordinator.AddBooking(SelectedDate, SelectedFlight, SelectedCustomer); }
+                { bool isSuccess = Coordinator.AddBooking(SelectedDate.Value.DateTime, SelectedFlight, SelectedCustomer); }
 
             catch (DuplicateBookingException)
             {

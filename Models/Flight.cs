@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace A2.Models
 {
@@ -32,7 +33,7 @@ namespace A2.Models
         /// Map of passenger id -> passenger
         /// </summary>
         public Dictionary<string, Customer> Passengers {get; init;}
-
+        [JsonIgnore]
         public string MenuPrompt => $"{this.FlightNumber.ToString()}: {this.OriginAirport} -> {this.DestinationAirport}";
 
         public Flight(int flightNumber, int maxSeats, string origin, string destination)

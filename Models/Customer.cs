@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 using static Library.Utilities.Utilities;
 
@@ -35,6 +36,7 @@ namespace A2.Models
         /// Menu prompt for use in a menuoption
         /// </summary>
         /// <returns>MenuOption prompt</returns>
+        [JsonIgnore]
         public string MenuPrompt => $"{this.FirstName} {this.LastName}";
 
         public Customer(string firstName, string lastName, string phoneNumber)

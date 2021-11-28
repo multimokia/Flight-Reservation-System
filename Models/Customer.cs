@@ -36,6 +36,12 @@ namespace A2.Models
         private List<string> _bookings;
         public List<string> Bookings {get { return _bookings; }}
 
+        /// <summary>
+        /// Menu prompt for use in a menuoption
+        /// </summary>
+        /// <returns>MenuOption prompt</returns>
+        public string MenuPrompt => $"{this.FirstName} {this.LastName}";
+
         public Customer(string firstName, string lastName, string phoneNumber)
         {
             //For the sake of easy value comparison, we'll hash the id so we know if two customers
@@ -68,21 +74,17 @@ namespace A2.Models
         }
 
         /// <summary>
-        /// Menu prompt for use in a menuoption
-        /// </summary>
-        /// <returns>MenuOption prompt</returns>
-        public string GetMenuPrompt()
-        {
-            return $"{this.FirstName} {this.LastName}";
-        }
-
-        /// <summary>
         /// ToString override
         /// </summary>
         /// <returns>A string representation of the Customer</returns>
         public override string ToString()
         {
-            return $"Customer {_id}:\n\tName: {_firstName} {_lastName}\n\tPhone: {_phoneNumber}\n\tBookings: {_bookings.Count}";
+            return (
+                $"Customer:"
+                + $"\n    Name: {_firstName} {_lastName}"
+                + $"\n    Phone Number: {_phoneNumber}"
+                + $"\n    Has {_bookings.Count} bookings"
+            );
         }
     }
 }

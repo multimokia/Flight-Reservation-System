@@ -90,12 +90,6 @@ namespace A2.ViewModels
             }
         }
 
-        public bool ShouldSubmitBeEnabled =>
-            _flightNumber.HasValue &&
-            _numberOfSeats.HasValue &&
-            !string.IsNullOrWhiteSpace(_originAirport) &&
-            !string.IsNullOrEmpty(_destinationAirport);
-
         public ReactiveCommand<Flight, bool> DeleteFlight {get;}
 
         public ICommand AddFlight {get;}
@@ -130,7 +124,13 @@ namespace A2.ViewModels
 
         private async Task AddFlightCommand()
         {
-            if (!ShouldSubmitBeEnabled)
+            //Sanity check to make sure the user has entered all the required data and that it is valid
+            if (
+                _flightNumber is null
+                || _numberOfSeats is null
+                || string.IsNullOrWhiteSpace(_originAirport)
+                || string.IsNullOrEmpty(_destinationAirport)
+            )
             {
                 ErrorDialogueViewModel error = new ErrorDialogueViewModel("Please fill in all fields", "Invalid data");
                 await ErrorDialogue.Handle(error);

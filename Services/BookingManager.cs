@@ -34,16 +34,24 @@ namespace A2.Services
         /// Creates a new booking.
         /// </summary>
         /// <param name="date">DateTime of the booking</param>
-        /// <param name="flightId">Id of the associated flight</param>
-        /// <param name="customerId">Id of the associated customer</param>
+        /// <param name="flight">associated flight</param>
+        /// <param name="customer">associated customer</param>
         /// <exception cref="DuplicateBookingException">Thrown when a booking already exists for the given flight and customer</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the flight is already filled</exception>
         /// <returns>Id of the created booking</returns>
-        public string AddBooking(DateTime date, int flightId, string customerId)
+        public string AddBooking(DateTime date, Flight flight, Customer customer)
         {
-            Booking booking = new Booking(date, flightId, customerId);
+            Booking booking = new Booking(date, flight, customer);
 
             if (_bookings.ContainsKey(booking.Id))
                 { throw new DuplicateBookingException(booking); }
+
+            //Check if we can add the passenger to the flight
+            if (!flight.AddPassenger(customer))
+                { throw new InvalidOperationException("Flight is already filled"); }
+
+            //Checks pass, formally add the reference
+            customer.AddBookingReference(booking.Id);
 
             //Add the booking to the dict and register its reference in the customer
             _bookings.Add(booking.Id, booking);

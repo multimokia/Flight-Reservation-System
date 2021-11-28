@@ -225,7 +225,114 @@
         </TabItem>
 
         <TabItem Classes="top" Header="Bookings">
-            <TextBox Classes="h1">Mlem</TextBox>
+            <TabControl TabStripPlacement="Left">
+                <TabItem Header="Add a booking" Classes="firstChild">
+                    <ScrollViewer>
+                        <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                            <TextBlock Classes="h1" Text="Customer:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"/>
+                            <ComboBox
+                                Items="{Binding Customers}"
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Grid.ColumnSpan="2"
+                                Margin="20"
+                                SelectedItem="{Binding SelectedCustomer}"
+                                HorizontalAlignment="Stretch"
+                            >
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding MenuPrompt}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <TextBlock Classes="h1" Text="Flight:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"/>
+                            <ComboBox
+                                Items="{Binding Flights}"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Grid.ColumnSpan="2"
+                                Margin="20"
+                                SelectedItem="{Binding SelectedFlight}"
+                                HorizontalAlignment="Stretch"
+                            >
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding MenuPrompt}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <TextBlock Classes="h1" Text="Date:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"/>
+                            <DatePicker
+                                Grid.Column="1"
+                                Grid.Row="2"
+                                Grid.ColumnSpan="2"
+                                Margin="20"
+                                SelectedDate="{Binding SelectedDate}"
+                                HorizontalAlignment="Stretch"
+                            />
+
+                            <Button
+                                Grid.Column="0"
+                                Grid.Row="3"
+                                Grid.ColumnSpan="3"
+                                Classes="positiveOperation"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Command="{Binding CreateBooking}"
+                            >
+                                Submit
+                            </Button>
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Manage..." Classes="lastChild">
+                    <ScrollViewer>
+                        <StackPanel VerticalAlignment="Stretch">
+                            <ListBox
+                                Items="{Binding Bookings}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                            >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#3f3f3f66" CornerRadius="4" Padding="10" HorizontalAlignment="Stretch">
+                                            <Expander HorizontalContentAlignment="Stretch" Background="#00000000">
+                                                <Expander.Header>
+                                                    <TextBlock Text="{Binding MenuPrompt}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                                </Expander.Header>
+                                                <Grid RowDefinitions="*" ColumnDefinitions="9*,*">
+                                                    <TextBlock Grid.Column="0" Text="{Binding}"/>
+                                                    <Button
+                                                        Grid.Column="1"
+                                                        Classes="negativeOperation"
+                                                        ToolTip.Tip="Delete this customer"
+                                                        HorizontalAlignment="Right"
+                                                        Command="{Binding $parent[Window].DataContext.DeleteCustomer}"
+                                                        CommandParameter="{Binding}"
+                                                    >
+                                                        <PathIcon Data="{StaticResource delete_regular}"/>
+                                                    </Button>
+                                                </Grid>
+                                            </Expander>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <TextBlock
+                                IsVisible="{Binding !Customers.Length}"
+                                Foreground="red"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                            >
+                                No flights registered.
+                            </TextBlock>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
         </TabItem>
     </TabControl>
 </Window>

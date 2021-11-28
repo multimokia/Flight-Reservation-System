@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Avalonia.Data;
+using System.Reactive;
 using System.Reactive.Linq;
 using ReactiveUI;
 using System.Windows.Input;
@@ -8,6 +9,7 @@ using System.Windows.Input;
 using A2.Models;
 using A2.Services;
 
+using Library.Errors;
 namespace A2.ViewModels
 {
     public class MainWindowViewModel : ReactiveObject
@@ -92,9 +94,9 @@ namespace A2.ViewModels
         }
 
         //Commands and interactions
-        public ReactiveCommand<Flight, bool> DeleteFlight {get;}
-
         public ICommand AddFlight {get;}
+
+        public ReactiveCommand<Flight, Unit> DeleteFlight {get;}
 
         //Command implementations
         private async Task AddFlightCommand()
@@ -132,7 +134,7 @@ namespace A2.ViewModels
             Flights = Coordinator.GetFlights();
         }
 
-        private bool DeleteFlightCommand(Flight flight)
+        private async Task DeleteFlightCommand(Flight flight)
         {
             bool isSuccess = Coordinator.DeleteFlight(flight.FlightNumber);
 
@@ -140,14 +142,17 @@ namespace A2.ViewModels
             //We should inform the user of this
             if (!isSuccess)
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel("Please remove all customers booked on this flight", "Cannot delete flight");
-                ErrorDialogue.Handle(error);
-                return false;
+                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                    "Please remove all customers booked on this flight",
+                    "Cannot delete flight"
+                );
+                await ErrorDialogue.Handle(error);
+                return;
             }
 
             //Update flightlist
             Flights = Coordinator.GetFlights();
-            return isSuccess;
+            return;
         }
 
         #endregion
@@ -211,7 +216,7 @@ namespace A2.ViewModels
         //Interactions and commands
         public ICommand AddCustomer {get;}
 
-        public ReactiveCommand<Customer, bool> DeleteCustomer {get;}
+        public ReactiveCommand<Customer, Unit> DeleteCustomer {get;}
 
         //Command implementations
         public async Task AddCustomerCommand()
@@ -223,7 +228,10 @@ namespace A2.ViewModels
                 || string.IsNullOrWhiteSpace(_phoneNumber)
             )
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel("Please fill in all fields", "Invalid data");
+                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                    "Please fill in all fields",
+                    "Invalid data"
+                );
                 await ErrorDialogue.Handle(error);
                 return;
             }
@@ -232,7 +240,10 @@ namespace A2.ViewModels
 
             if (!isSuccess)
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel("Customer already exists", "Duplicate Customer");
+                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                    "Customer already exists",
+                    "Duplicate Customer"
+                );
                 await ErrorDialogue.Handle(error);
                 return;
             }
@@ -241,7 +252,7 @@ namespace A2.ViewModels
             Customers = Coordinator.GetCustomers();
         }
 
-        public bool DeleteCustomerCommand(Customer customer)
+        public async Task DeleteCustomerCommand(Customer customer)
         {
             bool isSuccess = Coordinator.DeleteCustomer(customer.Id);
 
@@ -250,22 +261,95 @@ namespace A2.ViewModels
             if (!isSuccess)
             {
                 ErrorDialogueViewModel error = new ErrorDialogueViewModel(
-                    "Please make sure this customer is not booked on any flights.",
+                    "Please make sure this customer has no bookings.",
                     "Invalid Operation"
                 );
+
+                await ErrorDialogue.Handle(error);
             }
 
             //Update customer list
             Customers = Coordinator.GetCustomers();
-            return isSuccess;
+            return;
         }
         #endregion
 
         #region Booking UI Properties
 
+        //View properties
+        private Booking[] _bookings;
+
+        public Booking[] Bookings
+        {
+            get => _bookings;
+            set => this.RaiseAndSetIfChanged(ref _bookings, value);
+        }
+
+        Flight SelectedFlight {get; set;}
+
+        Customer SelectedCustomer {get; set;}
+
+        DateTime SelectedDate {get; set;}
+
+        //Interactions and commands
+        public ICommand CreateBooking {get;}
+
+        public ReactiveCommand<Booking, Unit> DeleteBooking {get;}
+
+        //Command implementations
+        public async Task CreateBookingCommand()
+        {
+            //Sanity check to make sure the user has entered all the required data and that it is valid
+            if (
+                SelectedFlight is null
+                || SelectedCustomer is null
+            )
+            {
+                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                    "Please select a flight, customer, and date",
+                    "Invalid data"
+                );
+                await ErrorDialogue.Handle(error);
+                return;
+            }
+
+            //Now let's check if the flight has room for more bookings
+            try
+                { bool isSuccess = Coordinator.AddBooking(SelectedDate, SelectedFlight, SelectedCustomer); }
+
+            catch (DuplicateBookingException)
+            {
+                ErrorDialogueViewModel error = new ErrorDialogueViewModel("Booking already exists.", "Duplicate Booking");
+                await ErrorDialogue.Handle(error);
+                return;
+            }
+
+            catch (InvalidOperationException)
+            {
+                ErrorDialogueViewModel error = new ErrorDialogueViewModel("Flight is fully booked.", "Invalid Operation");
+                await ErrorDialogue.Handle(error);
+                return;
+            }
+
+            //Update the bookings list
+            Bookings = Coordinator.GetBookings();
+        }
+
+        public async Task DeleteBookingCommand(Booking booking)
+        {
+            Coordinator.DeleteBooking(booking.Id);
+
+            //Update customer list
+            Bookings = Coordinator.GetBookings();
+            return;
+        }
+
         #endregion
 
 
+        /// <summary>
+        /// Interation root to create error dialogues
+        /// </summary>
         public Interaction<ErrorDialogueViewModel, object?> ErrorDialogue {get;}
 
         public MainWindowViewModel()
@@ -273,20 +357,37 @@ namespace A2.ViewModels
             //Init our storage
             Flights = Coordinator.GetFlights();
             Customers = Coordinator.GetCustomers();
+            Bookings = Coordinator.GetBookings();
 
             ////Register handlers
             //Flights
             AddFlight = ReactiveCommand.CreateFromTask(AddFlightCommand);
-            DeleteFlight = ReactiveCommand.Create<Flight, bool>(DeleteFlightCommand);
+            DeleteFlight = ReactiveCommand.CreateFromTask<Flight>(DeleteFlightCommand);
 
             //Customers
             AddCustomer = ReactiveCommand.CreateFromTask(AddCustomerCommand);
-            DeleteCustomer = ReactiveCommand.Create<Customer, bool>(DeleteCustomerCommand);
+            DeleteCustomer = ReactiveCommand.CreateFromTask<Customer>(DeleteCustomerCommand);
 
+            //Bookings
+            CreateBooking = ReactiveCommand.CreateFromTask(CreateBookingCommand);
+            DeleteBooking = ReactiveCommand.CreateFromTask<Booking>(DeleteBookingCommand);
+
+            ////Predefine inital field values
+            //Flights
             _flightNumber = null;
             _numberOfSeats = null;
             _originAirport = "";
             _destinationAirport = "";
+
+            //Customers
+            _firstName = "";
+            _lastName = "";
+            _phoneNumber = "";
+
+            //Bookings
+            SelectedFlight = null;
+            SelectedCustomer = null;
+            SelectedDate = DateTime.Now;
 
             ErrorDialogue = new Interaction<ErrorDialogueViewModel, object?>();
         }

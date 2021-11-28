@@ -10,7 +10,6 @@ namespace A2.Models
         //private int _flightNumber;
         public int FlightNumber {get; init;}
 
-
         /// <summary>
         /// The origin airport of the flight.
         /// </summary>
@@ -32,7 +31,7 @@ namespace A2.Models
         /// <summary>
         /// Map of passenger id -> passenger
         /// </summary>
-        private Dictionary<string, Customer> _passengers;
+        public Dictionary<string, Customer> Passengers {get; init;}
 
         public string MenuPrompt => $"{this.FlightNumber.ToString()}: {this.OriginAirport} -> {this.DestinationAirport}";
 
@@ -42,7 +41,7 @@ namespace A2.Models
             MaxSeats = maxSeats;
             OriginAirport = origin;
             DestinationAirport = destination;
-            _passengers = new Dictionary<string, Customer>();
+            Passengers = new Dictionary<string, Customer>();
         }
 
         /// <summary>
@@ -51,7 +50,7 @@ namespace A2.Models
         /// <returns>amount of passengers registered on this flight</returns>
         public int GetNumPassengers()
         {
-            return _passengers.Count;
+            return Passengers.Count;
         }
 
         /// <summary>
@@ -66,7 +65,7 @@ namespace A2.Models
                 { return false; }
 
             //Otherwise add
-            _passengers.Add(customer.Id, customer);
+            Passengers.Add(customer.Id, customer);
             return true;
         }
 
@@ -77,10 +76,10 @@ namespace A2.Models
         /// <returns>Customer object with the given id if found, null if not.</returns>
         public Customer GetPassenger(string customerId)
         {
-            if (!_passengers.ContainsKey(customerId))
+            if (!Passengers.ContainsKey(customerId))
                 { return null; }
 
-            return _passengers[customerId];
+            return Passengers[customerId];
         }
 
         /// <summary>
@@ -90,7 +89,7 @@ namespace A2.Models
         /// <returns>true if removed successfully, false otherwise</returns>
         public bool RemovePassenger(string customerId)
         {
-            return _passengers.Remove(customerId);
+            return Passengers.Remove(customerId);
         }
 
         /// <summary>
@@ -100,12 +99,12 @@ namespace A2.Models
         /// <returns>A string list of all passengers on the flight</returns>
         public string GetPassengerList(string additionalIndent="")
         {
-            if (_passengers.Count == 0)
+            if (Passengers.Count == 0)
                 { return "None"; }
 
-            string rv = $"\n{additionalIndent}Passengers on flight " + FlightNumber + ":";
-            foreach (Customer customer in _passengers.Values)
-                { rv += $"\n\t{additionalIndent}{customer.FirstName} {customer.LastName}"; }
+            string rv = $"\n{additionalIndent}Passengers on board:";
+            foreach (Customer customer in Passengers.Values)
+                { rv += $"\n    {additionalIndent}{customer.FirstName} {customer.LastName}"; }
 
             return rv;
         }

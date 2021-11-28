@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 
 using static Library.Utilities.Utilities;
 
@@ -9,35 +10,38 @@ namespace A2.Models
         /// <summary>
         /// Id of the booking
         /// </summary>
-        private string _id;
-        public string Id {get { return _id; }}
+        public string Id {get; init;}
 
         /// <summary>
         /// Id of the flight associated with the booking
         /// </summary>
-        private int _flightId;
-        public int FlightId {get { return _flightId; }}
+        public int FlightId {get; init;}
 
         /// <summary>
         /// Id of the customer associated with the booking
         /// </summary>
-        private string _customerId;
-        public string CustomerId {get { return _customerId; }}
+        public string CustomerId {get; init;}
 
         /// <summary>
         /// Date of the booking as timestamp
         /// </summary>
-        private long _date;
-        public long Date {get { return _date; }}
+        public long Date {get; init;}
 
-        public Booking(DateTime date, int flightId, string customerId)
+        /// <summary>
+        /// Prompt for menu options
+        /// </summary>
+        /// <returns>menu option prompt</returns>
+        [JsonIgnore]
+        public String MenuPrompt => $"Customer {this.CustomerId} for flight {this.FlightId}. {this.GetBookingDateTime()}";
+
+        public Booking(DateTime date, Flight flight, Customer customer)
         {
-            _date = date.ToTimestamp();
-            _flightId = flightId;
-            _customerId = customerId;
+            Date = date.ToTimestamp();
+            FlightId = flight.FlightNumber;
+            CustomerId = customer.Id;
 
             // Generate a unique id
-            _id = HashString($"{flightId}{customerId}{_date}");
+            Id = HashString($"{FlightId}{CustomerId}{Date}");
         }
 
         /// <summary>
@@ -46,16 +50,7 @@ namespace A2.Models
         /// <returns>DateTime of timestamp</returns>
         public DateTime GetBookingDateTime()
         {
-            return FromTimestamp(_date);
-        }
-
-        /// <summary>
-        /// Prompt for menu options
-        /// </summary>
-        /// <returns>menu option prompt</returns>
-        public string GetMenuPrompt()
-        {
-            return $"Customer {this.CustomerId} for flight {this.FlightId}. {this.GetBookingDateTime()}";
+            return FromTimestamp(Date);
         }
 
         /// <summary>

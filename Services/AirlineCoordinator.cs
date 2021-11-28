@@ -135,18 +135,12 @@ namespace A2.Services
         /// <param name="date">Date and Time of the bookingt</param>
         /// <param name="flight">Associated Flight</param>
         /// <param name="customer">Associated Customer</param>
+        /// <exception cref="DuplicateBookingException">Thrown when a booking with this specification already exists</exception>
+        /// <exception cref="InvalidOperationException">Thrown when a flight is completely booked</exception>
         /// <returns>true if the booking was added, false otherwise</returns>
         public bool AddBooking(DateTime date, Flight flight, Customer customer)
         {
-            try
-            {
-                string bookingId = _bookingManager.AddBooking(date, flight.FlightNumber, customer.Id);
-                customer.AddBookingReference(bookingId);
-                flight.AddPassenger(customer);
-            }
-
-            catch (DuplicateBookingException)
-                { return false; }
+            string bookingId = _bookingManager.AddBooking(date, flight, customer);
 
             //Save all changes
             _bookingManager.Save();

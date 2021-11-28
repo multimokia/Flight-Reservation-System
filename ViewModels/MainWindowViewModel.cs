@@ -96,6 +96,7 @@ namespace A2.ViewModels
 
         public ICommand AddFlight {get;}
 
+        //Command implementations
         private async Task AddFlightCommand()
         {
             //Sanity check to make sure the user has entered all the required data and that it is valid
@@ -152,6 +153,7 @@ namespace A2.ViewModels
         #endregion
 
         #region Customer UI Properties
+
         //View properties
         private Customer[] _customers;
 
@@ -211,6 +213,7 @@ namespace A2.ViewModels
 
         public ReactiveCommand<Customer, bool> DeleteCustomer {get;}
 
+        //Command implementations
         public async Task AddCustomerCommand()
         {
             //Sanity check to make sure the user has entered all the required data and that it is valid
@@ -258,6 +261,9 @@ namespace A2.ViewModels
         }
         #endregion
 
+        #region Booking UI Properties
+
+        #endregion
 
 
         public Interaction<ErrorDialogueViewModel, object?> ErrorDialogue {get;}

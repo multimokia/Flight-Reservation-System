@@ -210,7 +210,7 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                             <TextBlock
-                                IsVisible="{Binding !Flights.Length}"
+                                IsVisible="{Binding !Customers.Length}"
                                 Foreground="red"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"

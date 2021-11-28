@@ -25,60 +25,61 @@
         <TabItem Classes="top" Header="Flights">
             <TabControl TabStripPlacement="Left">
                 <TabItem Header="Add a flight" Classes="firstChild">
-                    <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-                        <TextBlock Classes="h1" Text="Flight number:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"/>
-                        <TextBox
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            Grid.ColumnSpan="2"
-                            Margin="20"
-                            MaxLength="10"
-                            Text="{Binding FlightNumber}"
-                        />
+                    <ScrollViewer>
+                        <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                            <TextBlock Classes="h1" Text="Flight number:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"/>
+                            <TextBox
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Grid.ColumnSpan="2"
+                                Margin="20"
+                                MaxLength="10"
+                                Text="{Binding FlightNumber}"
+                            />
 
-                        <TextBlock Classes="h1" Text="Number of Seats:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"/>
-                        <TextBox
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            Grid.ColumnSpan="2"
-                            Margin="20"
-                            MaxLength="3"
-                            Text="{Binding NumberOfSeats}"
-                        />
+                            <TextBlock Classes="h1" Text="Number of Seats:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"/>
+                            <TextBox
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Grid.ColumnSpan="2"
+                                Margin="20"
+                                MaxLength="3"
+                                Text="{Binding NumberOfSeats}"
+                            />
 
-                        <TextBlock Classes="h1" Text="Origin Airport:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"/>
-                        <TextBox
-                            Grid.Column="1"
-                            Grid.Row="2"
-                            Grid.ColumnSpan="2"
-                            Margin="20"
-                            MaxLength="50"
-                            Text="{Binding OriginAirport}"
-                        />
+                            <TextBlock Classes="h1" Text="Origin Airport:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"/>
+                            <TextBox
+                                Grid.Column="1"
+                                Grid.Row="2"
+                                Grid.ColumnSpan="2"
+                                Margin="20"
+                                MaxLength="50"
+                                Text="{Binding OriginAirport}"
+                            />
 
-                        <TextBlock Classes="h1" Text="Destination Airport:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"/>
-                        <TextBox
-                            Grid.Column="1"
-                            Grid.Row="3"
-                            Grid.ColumnSpan="2"
-                            Margin="20"
-                            MaxLength="50"
-                            Text="{Binding DestinationAirport}"
-                        />
+                            <TextBlock Classes="h1" Text="Destination Airport:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"/>
+                            <TextBox
+                                Grid.Column="1"
+                                Grid.Row="3"
+                                Grid.ColumnSpan="2"
+                                Margin="20"
+                                MaxLength="50"
+                                Text="{Binding DestinationAirport}"
+                            />
 
-                        <Button
-                            Grid.Column="0"
-                            Grid.Row="4"
-                            Grid.ColumnSpan="3"
-                            Classes="positiveOperation"
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Center"
-                            Command="{Binding AddFlight}"
-                            CommandParameter="something"
-                        >
-                            Submit
-                        </Button>
-                    </Grid>
+                            <Button
+                                Grid.Column="0"
+                                Grid.Row="4"
+                                Grid.ColumnSpan="3"
+                                Classes="positiveOperation"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Command="{Binding AddFlight}"
+                            >
+                                Submit
+                            </Button>
+                        </Grid>
+                    </ScrollViewer>
                 </TabItem>
                 <TabItem Header="Manage..." Classes="lastChild">
                     <ScrollViewer>

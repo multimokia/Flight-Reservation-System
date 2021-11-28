@@ -19,6 +19,10 @@ namespace A2.Views
             #if DEBUG
             this.AttachDevTools();
             #endif
+
+            this.WhenActivated(
+                d => d(ViewModel!.ErrorDialogue.RegisterHandler(DoShowDialogueAsync))
+            );
         }
 
         private void InitializeComponent()
@@ -26,32 +30,13 @@ namespace A2.Views
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void _addFlightButton(object? sender, RoutedEventArgs e)
+        private async Task DoShowDialogueAsync(InteractionContext<ErrorDialogueViewModel, object> interaction)
         {
-            TextBox flightNum = this.FindControl<TextBox>("FlightNumber");
-            TextBox numSeats = this.FindControl<TextBox>("NumSeats");
-            TextBox originAirport = this.FindControl<TextBox>("OriginAirport");
-            TextBox destinationAirport = this.FindControl<TextBox>("DestinationAirport");
+            ErrorDialogue dlg = new ErrorDialogue();
+            dlg.DataContext = interaction.Input;
 
-            if (
-                MainWindowViewModel.Coordinator.AddFlight(
-                    Convert.ToInt32(flightNum.Text),
-                    Convert.ToInt32(numSeats.Text),
-                    originAirport.Text,
-                    destinationAirport.Text
-                )
-            )
-            {
-                flightNum.Text = "";
-                numSeats.Text = "";
-                originAirport.Text = "";
-                destinationAirport.Text = "";
-            }
-        }
-
-        private async Task ShowDialogueAsync()
-        {
-
+            object result = await dlg.ShowDialog<object>(this);
+            interaction.SetOutput(result);
         }
     }
 }

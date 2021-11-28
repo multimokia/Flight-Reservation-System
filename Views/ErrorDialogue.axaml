@@ -1,0 +1,49 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:A2.ViewModels"
+    mc:Ignorable="d"
+    d:DesignWidth="800"
+    d:DesignHeight="450"
+    Width="500"
+    Height="200"
+    CanResize="False"
+    x:Class="A2.Views.ErrorDialogue"
+    Title="{Binding Title}"
+    TransparencyLevelHint="AcrylicBlur"
+    Background="Transparent"
+    ExtendClientAreaToDecorationsHint="True"
+    WindowStartupLocation="CenterScreen"
+>
+    <Design.DataContext>
+        <viewModels:ErrorDialogueViewModel/>
+    </Design.DataContext>
+
+    <Panel Background="#3f3f3f66">
+        <Grid ColumnDefinitions="*,*,*" RowDefinitions="*,*">
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Text="{Binding ErrorMessage}"
+                FontSize="26"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Padding="10"
+                Margin="10 10 0 0"
+            />
+            <Button
+                Grid.Row="1"
+                Grid.Column="2"
+                Content="Close"
+                Click="CloseClick"
+                Classes="negativeOperation"
+                HorizontalAlignment="Stretch"
+                Padding="10"
+                Margin="10"
+            />
+        </Grid>
+    </Panel>
+</Window>

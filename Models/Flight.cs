@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
 namespace A2.Models
@@ -28,7 +27,6 @@ namespace A2.Models
         /// <summary>
         /// The maximum number of passengers that can be on the flight.
         /// </summary>
-        //private int _maxPassengers;
         public int MaxSeats {get; init;}
 
         /// <summary>
@@ -38,6 +36,16 @@ namespace A2.Models
 
         [JsonIgnore]
         public string MenuPrompt => $"{this.FlightNumber.ToString()}: {this.OriginAirport} -> {this.DestinationAirport}";
+
+        [JsonIgnore]
+        public string MoreInfoText
+        {
+            get => ToString();
+            set
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("MoreInfoText"));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -90,6 +98,9 @@ namespace A2.Models
 
             //Otherwise add
             Passengers.Add(customer.Id, customer);
+
+            //Notify the UI
+            this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Passengers"));
             return true;
         }
 
@@ -126,7 +137,7 @@ namespace A2.Models
             if (Passengers.Count == 0)
                 { return "None"; }
 
-            string rv = $"\n{additionalIndent}Passengers on board:";
+            string rv = "";
             foreach (Customer customer in Passengers.Values)
                 { rv += $"\n    {additionalIndent}- {customer.FirstName} {customer.LastName}"; }
 
@@ -144,11 +155,11 @@ namespace A2.Models
                 + $"\n    From {OriginAirport} to {DestinationAirport}."
                 + $"\n    Number of Passengers: {GetNumPassengers()} "
                 + $"\n    Available seats: {(MaxSeats - GetNumPassengers())}"
-                + $"{GetPassengerList("  ")}"
+                + $"\n    Passengers on board: {GetPassengerList("  ")}"
             );
         }
 
-        public void RaisePropertyChanged([CallerMemberName] string propertyName=null)
+        public void RaisePropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -98,7 +98,7 @@
                                                     <TextBlock Text="{Binding MenuPrompt}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                 </Expander.Header>
                                                 <Grid RowDefinitions="*" ColumnDefinitions="9*,*">
-                                                    <TextBlock Grid.Column="0" Text="{Binding}"/>
+                                                    <TextBlock Grid.Column="0" Text="{Binding MoreInfoText, Mode=TwoWay}"/>
                                                     <Button
                                                         Grid.Column="1"
                                                         Classes="negativeOperation"
@@ -194,7 +194,11 @@
                                                     <TextBlock Text="{Binding MenuPrompt}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                 </Expander.Header>
                                                 <Grid RowDefinitions="*" ColumnDefinitions="9*,*">
-                                                    <TextBlock Grid.Column="0" Text="{Binding}"/>
+                                                    <TextBlock
+                                                        Grid.Column="0"
+                                                        Text="{Binding MoreInfoText}"
+                                                        Name="CustomerInfo"
+                                                    />
                                                     <Button
                                                         Grid.Column="1"
                                                         Classes="negativeOperation"
@@ -282,7 +286,7 @@
                                 Classes="positiveOperation"
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Center"
-                                Command="{Binding CreateBooking}"
+                                Click="BookingsSubmit"
                             >
                                 Submit
                             </Button>
@@ -312,8 +316,8 @@
                                                         Classes="negativeOperation"
                                                         ToolTip.Tip="Delete this booking"
                                                         HorizontalAlignment="Right"
-                                                        Command="{Binding $parent[Window].DataContext.DeleteBooking}"
                                                         CommandParameter="{Binding}"
+                                                        Click="BookingsDelete"
                                                     >
                                                         <PathIcon Data="{StaticResource delete_regular}"/>
                                                     </Button>

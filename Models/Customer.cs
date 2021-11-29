@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
 using static Library.Utilities.Utilities;
@@ -40,6 +39,9 @@ namespace A2.Models
         /// <returns>MenuOption prompt</returns>
         [JsonIgnore]
         public string MenuPrompt => $"{this.FirstName} {this.LastName}";
+
+        [JsonIgnore]
+        public string MoreInfoText => ToString();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -106,7 +108,7 @@ namespace A2.Models
             );
         }
 
-        public void RaisePropertyChanged([CallerMemberName] string propertyName=null)
+        public void RaisePropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

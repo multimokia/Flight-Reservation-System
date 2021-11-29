@@ -8,7 +8,7 @@ using Avalonia.Interactivity;
 using ReactiveUI;
 using Avalonia.ReactiveUI;
 
-using Library;
+using A2.Models;
 namespace A2.Views
 {
     public class MainWindow : ReactiveWindow<MainWindowViewModel>
@@ -39,13 +39,55 @@ namespace A2.Views
             interaction.SetOutput(result);
         }
 
+        /// <summary>
+        /// This is very much a hack to force an update without formally implementing INotifyCollectionChanged and INotifyPropertyChanged
+        /// in a nested context and basically redoing my entire backend.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BookingsSubmit(object sender, RoutedEventArgs e)
         {
+            if (DataContext is null)
+                { return; }
+
+            MainWindowViewModel? mwvm = (DataContext as MainWindowViewModel);
+
+            if (mwvm is null)
+                { return; }
+
+            mwvm.CreateBooking.Execute(null);
+
+            object? datactx = DataContext;
+            DataContext = null;
+            DataContext = datactx;
         }
 
+        /// <summary>
+        /// Also a hack to force an update without formally implementing INotifyCollectionChanged and INotifyPropertyChanged
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BookingsDelete(object sender, RoutedEventArgs e)
         {
+            if (sender is null)
+                { return; }
 
+            Button? btn = sender as Button;
+
+            if (btn is null)
+                { return; }
+
+            Booking? booking = btn.CommandParameter as Booking;
+
+            if (booking is null)
+                { return; }
+
+            //If data context isn't null, we know it is a MainWindowViewModel
+            (DataContext as MainWindowViewModel)!.DeleteBooking.Execute(booking);
+
+            object? datactx = DataContext;
+            DataContext = null;
+            DataContext = datactx;
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using Avalonia.Data;
+﻿using Avalonia.Data;
+using ReactiveUI;
+using System;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using ReactiveUI;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using A2.Models;
@@ -354,6 +355,8 @@ namespace A2.ViewModels
 
             //Update the bookings list
             Bookings = Coordinator.GetBookings();
+            Flights = Coordinator.GetFlights();
+            Customers = Coordinator.GetCustomers();
         }
 
         public async Task DeleteBookingCommand(Booking booking)

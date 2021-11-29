@@ -1,11 +1,13 @@
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
 using static Library.Utilities.Utilities;
 
 namespace A2.Models
 {
-    public class Customer
+    public class Customer : INotifyPropertyChanged
     {
         /// <summary>
         /// Customer id
@@ -39,6 +41,8 @@ namespace A2.Models
         [JsonIgnore]
         public string MenuPrompt => $"{this.FirstName} {this.LastName}";
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public Customer(string firstName, string lastName, string phoneNumber)
         {
             //For the sake of easy value comparison, we'll hash the id so we know if two customers
@@ -48,6 +52,24 @@ namespace A2.Models
             LastName = lastName;
             PhoneNumber = phoneNumber;
             Bookings = new List<string>();
+        }
+
+        /// <summary>
+        /// Json constructor for initializing customers w/ all persistent data
+        /// </summary>
+        /// <param name="id">Customer Id</param>
+        /// <param name="firstName">First name</param>
+        /// <param name="lastName">Last name</param>
+        /// <param name="phoneNumber">Phone number</param>
+        /// <param name="bookings">Registered booking references</param>
+        [JsonConstructor]
+        public Customer(string id, string firstName, string lastName, string phoneNumber, List<string> bookings)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+            Bookings = bookings;
         }
 
         /// <summary>
@@ -82,6 +104,11 @@ namespace A2.Models
                 + $"\n    Phone Number: {PhoneNumber}"
                 + $"\n    Has {Bookings.Count} bookings"
             );
+        }
+
+        public void RaisePropertyChanged([CallerMemberName] string propertyName=null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

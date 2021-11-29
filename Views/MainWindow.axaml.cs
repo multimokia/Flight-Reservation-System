@@ -38,5 +38,14 @@ namespace A2.Views
             object result = await dlg.ShowDialog<object>(this);
             interaction.SetOutput(result);
         }
+
+        private void BookingsSubmit(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BookingsDelete(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

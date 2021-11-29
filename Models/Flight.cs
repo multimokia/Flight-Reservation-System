@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
 namespace A2.Models
 {
-    public class Flight
+    public class Flight : INotifyPropertyChanged
     {
         /// <summary>
         /// The flight number
@@ -33,8 +35,11 @@ namespace A2.Models
         /// Map of passenger id -> passenger
         /// </summary>
         public Dictionary<string, Customer> Passengers {get; init;}
+
         [JsonIgnore]
         public string MenuPrompt => $"{this.FlightNumber.ToString()}: {this.OriginAirport} -> {this.DestinationAirport}";
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Flight(int flightNumber, int maxSeats, string origin, string destination)
         {
@@ -43,6 +48,24 @@ namespace A2.Models
             OriginAirport = origin;
             DestinationAirport = destination;
             Passengers = new Dictionary<string, Customer>();
+        }
+
+        /// <summary>
+        /// Json constructor variation of the constructor above.
+        /// </summary>
+        /// <param name="flightNumber">Flight number</param>
+        /// <param name="maxSeats">Maximum amount of seats</param>
+        /// <param name="origin">Origin airport</param>
+        /// <param name="destination">Destination airport</param>
+        /// <param name="passengers">customerid : Customer map</param>
+        [JsonConstructor]
+        public Flight(int flightNumber, int maxSeats, string origin, string destination, Dictionary<string, Customer> passengers)
+        {
+            FlightNumber = flightNumber;
+            MaxSeats = maxSeats;
+            OriginAirport = origin;
+            DestinationAirport = destination;
+            Passengers = passengers;
         }
 
         /// <summary>
@@ -105,7 +128,7 @@ namespace A2.Models
 
             string rv = $"\n{additionalIndent}Passengers on board:";
             foreach (Customer customer in Passengers.Values)
-                { rv += $"\n    {additionalIndent}{customer.FirstName} {customer.LastName}"; }
+                { rv += $"\n    {additionalIndent}- {customer.FirstName} {customer.LastName}"; }
 
             return rv;
         }
@@ -121,8 +144,13 @@ namespace A2.Models
                 + $"\n    From {OriginAirport} to {DestinationAirport}."
                 + $"\n    Number of Passengers: {GetNumPassengers()} "
                 + $"\n    Available seats: {(MaxSeats - GetNumPassengers())}"
-                + $"\n    Passengers on board: {GetPassengerList("    ")}"
+                + $"{GetPassengerList("  ")}"
             );
+        }
+
+        public void RaisePropertyChanged([CallerMemberName] string propertyName=null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

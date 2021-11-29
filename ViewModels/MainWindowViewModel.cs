@@ -14,7 +14,7 @@ namespace A2.ViewModels
 {
     public class MainWindowViewModel : ReactiveObject
     {
-        public static AirlineCoordinator Coordinator = new AirlineCoordinator();
+        public AirlineCoordinator Coordinator;
 
         #region Flight UI Properties
         //We need this to force an update on the view
@@ -375,6 +375,9 @@ namespace A2.ViewModels
 
         public MainWindowViewModel()
         {
+            //Create the coordinator
+            Coordinator = new AirlineCoordinator();
+
             //Init our storage
             Flights = Coordinator.GetFlights();
             Customers = Coordinator.GetCustomers();

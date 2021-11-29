@@ -25,7 +25,7 @@ namespace A2.Models
         /// <summary>
         /// Date of the booking as timestamp
         /// </summary>
-        public long Date {get; init;}
+        public long TimeStamp {get; init;}
 
         /// <summary>
         /// Prompt for menu options
@@ -36,12 +36,21 @@ namespace A2.Models
 
         public Booking(DateTime date, Flight flight, Customer customer)
         {
-            Date = date.ToTimestamp();
+            TimeStamp = date.ToTimestamp();
             FlightId = flight.FlightNumber;
             CustomerId = customer.Id;
 
             // Generate a unique id
-            Id = HashString($"{FlightId}{CustomerId}{Date}");
+            Id = HashString($"{FlightId}{CustomerId}{TimeStamp}");
+        }
+
+        [JsonConstructor]
+        public Booking(string id, int flightId, string customerId, long timestamp)
+        {
+            Id = id;
+            FlightId = flightId;
+            CustomerId = customerId;
+            TimeStamp = timestamp;
         }
 
         /// <summary>
@@ -50,7 +59,7 @@ namespace A2.Models
         /// <returns>DateTime of timestamp</returns>
         public DateTime GetBookingDateTime()
         {
-            return FromTimestamp(Date);
+            return FromTimestamp(TimeStamp);
         }
 
         /// <summary>
@@ -61,9 +70,9 @@ namespace A2.Models
         {
             return (
                 "Booking:"
-                + $"    On: {GetBookingDateTime()}"
-                + $"    Flightnumber: {FlightId}"
-                + $"    For: {CustomerId}");
+                + $"\n    On: {GetBookingDateTime()}"
+                + $"\n    Flightnumber: {FlightId}"
+                + $"\n    For: {CustomerId}");
         }
     }
 }

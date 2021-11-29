@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace A2.Models
 {
-    public class Flight : INotifyPropertyChanged
+    public class Flight
     {
         /// <summary>
         /// The flight number
@@ -36,18 +36,6 @@ namespace A2.Models
 
         [JsonIgnore]
         public string MenuPrompt => $"{this.FlightNumber.ToString()}: {this.OriginAirport} -> {this.DestinationAirport}";
-
-        [JsonIgnore]
-        public string MoreInfoText
-        {
-            get => ToString();
-            set
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs("MoreInfoText"));
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public Flight(int flightNumber, int maxSeats, string origin, string destination)
         {
@@ -98,9 +86,6 @@ namespace A2.Models
 
             //Otherwise add
             Passengers.Add(customer.Id, customer);
-
-            //Notify the UI
-            this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Passengers"));
             return true;
         }
 
@@ -157,11 +142,6 @@ namespace A2.Models
                 + $"\n    Available seats: {(MaxSeats - GetNumPassengers())}"
                 + $"\n    Passengers on board: {GetPassengerList("  ")}"
             );
-        }
-
-        public void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

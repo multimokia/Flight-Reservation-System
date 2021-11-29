@@ -6,7 +6,7 @@ using static Library.Utilities.Utilities;
 
 namespace A2.Models
 {
-    public class Customer : INotifyPropertyChanged
+    public class Customer
     {
         /// <summary>
         /// Customer id
@@ -39,11 +39,6 @@ namespace A2.Models
         /// <returns>MenuOption prompt</returns>
         [JsonIgnore]
         public string MenuPrompt => $"{this.FirstName} {this.LastName}";
-
-        [JsonIgnore]
-        public string MoreInfoText => ToString();
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public Customer(string firstName, string lastName, string phoneNumber)
         {
@@ -105,12 +100,8 @@ namespace A2.Models
                 + $"\n    Name: {FirstName} {LastName}"
                 + $"\n    Phone Number: {PhoneNumber}"
                 + $"\n    Has {Bookings.Count} bookings"
+                + $"\n    Id: {Id}"
             );
-        }
-
-        public void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

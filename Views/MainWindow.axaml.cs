@@ -21,7 +21,7 @@ namespace A2.Views
             #endif
 
             this.WhenActivated(
-                d => d(ViewModel!.ErrorDialogue.RegisterHandler(DoShowDialogueAsync))
+                d => d(ViewModel!.DialogueBox.RegisterHandler(DoShowDialogueAsync))
             );
         }
 
@@ -35,7 +35,7 @@ namespace A2.Views
         /// </summary>
         /// <param name="interaction">The interaction used</param>
         /// <returns>Task.CompletedTask</returns>
-        private async Task DoShowDialogueAsync(InteractionContext<ErrorDialogueViewModel, object> interaction)
+        private async Task DoShowDialogueAsync(InteractionContext<DialogueBoxViewModel, object> interaction)
         {
             ErrorDialogue dlg = new ErrorDialogue();
             dlg.DataContext = interaction.Input;

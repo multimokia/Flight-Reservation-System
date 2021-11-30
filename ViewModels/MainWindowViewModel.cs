@@ -110,8 +110,11 @@ namespace A2.ViewModels
                 || string.IsNullOrEmpty(_destinationAirport)
             )
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel("Please fill in all fields", "Invalid data");
-                await ErrorDialogue.Handle(error);
+                DialogueBoxViewModel error = new DialogueBoxViewModel(
+                    "Please fill in all fields",
+                    "Invalid data"
+                );
+                await DialogueBox.Handle(error);
                 return;
             }
 
@@ -126,10 +129,20 @@ namespace A2.ViewModels
             //We should inform the user of this
             if (!isSuccess)
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel("Flight already exists", "Duplicate flight");
-                await ErrorDialogue.Handle(error);
+                DialogueBoxViewModel error = new DialogueBoxViewModel(
+                    "Flight already exists",
+                    "Duplicate flight"
+                );
+                await DialogueBox.Handle(error);
                 return;
             }
+
+            //Checks pass, let's tell the user
+            DialogueBoxViewModel success = new DialogueBoxViewModel(
+                "Flight added successfully",
+                "Success"
+            );
+            await DialogueBox.Handle(success);
 
             //Update the flights list
             Flights = Coordinator.GetFlights();
@@ -143,11 +156,11 @@ namespace A2.ViewModels
             //We should inform the user of this
             if (!isSuccess)
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                DialogueBoxViewModel error = new DialogueBoxViewModel(
                     "Please remove all customers booked on this flight",
                     "Cannot delete flight"
                 );
-                await ErrorDialogue.Handle(error);
+                await DialogueBox.Handle(error);
                 return;
             }
 
@@ -229,11 +242,11 @@ namespace A2.ViewModels
                 || string.IsNullOrWhiteSpace(_phoneNumber)
             )
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                DialogueBoxViewModel error = new DialogueBoxViewModel(
                     "Please fill in all fields",
                     "Invalid data"
                 );
-                await ErrorDialogue.Handle(error);
+                await DialogueBox.Handle(error);
                 return;
             }
 
@@ -241,13 +254,20 @@ namespace A2.ViewModels
 
             if (!isSuccess)
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                DialogueBoxViewModel error = new DialogueBoxViewModel(
                     "Customer already exists",
                     "Duplicate Customer"
                 );
-                await ErrorDialogue.Handle(error);
+                await DialogueBox.Handle(error);
                 return;
             }
+
+            //Checks pass, let's tell the user
+            DialogueBoxViewModel success = new DialogueBoxViewModel(
+                "Customer added successfully",
+                "Success"
+            );
+            await DialogueBox.Handle(success);
 
             //Update the customers list
             Customers = Coordinator.GetCustomers();
@@ -261,12 +281,12 @@ namespace A2.ViewModels
             //So we should alert the user if this happens
             if (!isSuccess)
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                DialogueBoxViewModel error = new DialogueBoxViewModel(
                     "Please make sure this customer has no bookings.",
                     "Invalid Operation"
                 );
 
-                await ErrorDialogue.Handle(error);
+                await DialogueBox.Handle(error);
             }
 
             //Update customer list
@@ -321,11 +341,11 @@ namespace A2.ViewModels
                 || SelectedDate == new DateTime(1600, 12, 31)
             )
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                DialogueBoxViewModel error = new DialogueBoxViewModel(
                     "Please select a flight, customer, and date",
                     "Invalid data"
                 );
-                await ErrorDialogue.Handle(error);
+                await DialogueBox.Handle(error);
                 return;
             }
 
@@ -335,23 +355,30 @@ namespace A2.ViewModels
 
             catch (DuplicateBookingException)
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                DialogueBoxViewModel error = new DialogueBoxViewModel(
                     "Booking already exists.",
                     "Duplicate Booking"
                 );
-                await ErrorDialogue.Handle(error);
+                await DialogueBox.Handle(error);
                 return;
             }
 
             catch (InvalidOperationException)
             {
-                ErrorDialogueViewModel error = new ErrorDialogueViewModel(
+                DialogueBoxViewModel error = new DialogueBoxViewModel(
                     "Flight is fully booked.",
                     "Invalid Operation"
                 );
-                await ErrorDialogue.Handle(error);
+                await DialogueBox.Handle(error);
                 return;
             }
+
+            //We passed, let's tell the user
+            DialogueBoxViewModel success = new DialogueBoxViewModel(
+                "Booking created successfully",
+                "Success"
+            );
+            await DialogueBox.Handle(success);
 
             //Update the bookings list
             Bookings = Coordinator.GetBookings();
@@ -374,7 +401,7 @@ namespace A2.ViewModels
         /// <summary>
         /// Interation root to create error dialogues
         /// </summary>
-        public Interaction<ErrorDialogueViewModel, object?> ErrorDialogue {get;}
+        public Interaction<DialogueBoxViewModel, object?> DialogueBox {get;}
 
         public MainWindowViewModel()
         {
@@ -416,7 +443,7 @@ namespace A2.ViewModels
             SelectedCustomer = null;
             SelectedDate = DateTime.Now;
 
-            ErrorDialogue = new Interaction<ErrorDialogueViewModel, object?>();
+            DialogueBox = new Interaction<DialogueBoxViewModel, object?>();
         }
     }
 }

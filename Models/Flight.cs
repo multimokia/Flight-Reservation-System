@@ -115,16 +115,15 @@ namespace A2.Models
         /// <summary>
         /// Returns a human readable list of all passengers on the flight.
         /// </summary>
-        /// <param name="additionalIndent">If the output should be indented, the indent may be supplied. (Default: "")</param>
         /// <returns>A string list of all passengers on the flight</returns>
-        public string GetPassengerList(string additionalIndent="")
+        private string GetPassengerListStr()
         {
             if (Passengers.Count == 0)
                 { return "None"; }
 
             string rv = "";
             foreach (Customer customer in Passengers.Values)
-                { rv += $"\n    {additionalIndent}- {customer.FirstName} {customer.LastName}"; }
+                { rv += $"\n      - {customer.FirstName} {customer.LastName}"; }
 
             return rv;
         }
@@ -140,7 +139,7 @@ namespace A2.Models
                 + $"\n    From {OriginAirport} to {DestinationAirport}."
                 + $"\n    Number of Passengers: {GetNumPassengers()} "
                 + $"\n    Available seats: {(MaxSeats - GetNumPassengers())}"
-                + $"\n    Passengers on board: {GetPassengerList("  ")}"
+                + $"\n    Passengers on board: {GetPassengerListStr()}"
             );
         }
     }

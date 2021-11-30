@@ -37,7 +37,7 @@ namespace A2.Services
         /// <param name="maxSeats">Maximum amount of seats on this flight</param>
         /// <param name="origin">Origin airport</param>
         /// <param name="destination">Destination airport</param>
-        /// <returns></returns>
+        /// <returns>True if flight was added, False otherwise</returns>
         public bool AddFlight(int flightNumber, int maxSeats, string origin, string destination)
         {
             //If we already have this flight, don't try to add again
@@ -84,10 +84,10 @@ namespace A2.Services
         }
 
         /// <summary>
-        /// Gets a human readable list of flights
+        /// Getter for the flight dictionary
         /// </summary>
         /// <returns>List of flights as string</returns>
-        public Dictionary<int, Flight> GetAllFlights()
+        public Dictionary<int, Flight> GetFlights()
         {
             return _flights;
         }

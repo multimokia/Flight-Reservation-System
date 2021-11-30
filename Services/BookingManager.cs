@@ -61,8 +61,8 @@ namespace A2.Services
         /// <summary>
         /// Deletes a booking
         /// </summary>
-        /// <param name="bookingId"></param>
-        /// <returns></returns>
+        /// <param name="bookingId">Id of the booking to remove</param>
+        /// <returns>True if booking was removed, False otherwise</returns>
         public bool RemoveBooking(string bookingId)
         {
             if (!_bookings.ContainsKey(bookingId))

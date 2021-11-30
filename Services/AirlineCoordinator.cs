@@ -23,10 +23,10 @@ namespace A2.Services
         /// <summary>
         /// Adds a flight to the flight manager.
         /// </summary>
-        /// <param name="flightNumber"></param>
-        /// <param name="maxSeats"></param>
-        /// <param name="origin"></param>
-        /// <param name="destination"></param>
+        /// <param name="flightNumber">Flight number</param>
+        /// <param name="maxSeats">Max amount of seats</param>
+        /// <param name="origin">Origin Airport</param>
+        /// <param name="destination">Destination Airport</param>
         /// <returns></returns>
         public bool AddFlight(int flightNumber, int maxSeats, string origin, string destination)
         {
@@ -61,7 +61,7 @@ namespace A2.Services
         /// <returns>Array of Flights</returns>
         public Flight[] GetFlights()
         {
-            return _flightManager.GetAllFlights().Values.ToArray();
+            return _flightManager.GetFlights().Values.ToArray();
         }
 
         /// <summary>
@@ -117,16 +117,6 @@ namespace A2.Services
         public Customer[] GetCustomers()
         {
             return _customerManager.GetCustomers().Values.ToArray();
-        }
-
-        /// <summary>
-        /// Passthrough method to the customer manager to get a customer by id
-        /// </summary>
-        /// <param name="customerId">id of the customer to get</param>
-        /// <returns>Customer if found, null if not</returns>
-        public Customer GetCustomer(string customerId)
-        {
-            return _customerManager.GetCustomer(customerId);
         }
 
         /// <summary>

@@ -30,6 +30,11 @@ namespace A2.Views
             AvaloniaXamlLoader.Load(this);
         }
 
+        /// <summary>
+        /// Function to show a dialogue
+        /// </summary>
+        /// <param name="interaction">The interaction used</param>
+        /// <returns>Task.CompletedTask</returns>
         private async Task DoShowDialogueAsync(InteractionContext<ErrorDialogueViewModel, object> interaction)
         {
             ErrorDialogue dlg = new ErrorDialogue();
@@ -43,8 +48,8 @@ namespace A2.Views
         /// This is very much a hack to force an update without formally implementing INotifyCollectionChanged and INotifyPropertyChanged
         /// in a nested context and basically redoing my entire backend.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button element as object which sent this clickEvent</param>
+        /// <param name="e">Eventargs</param>
         private void BookingsSubmit(object sender, RoutedEventArgs e)
         {
             if (DataContext is null)
@@ -65,8 +70,8 @@ namespace A2.Views
         /// <summary>
         /// Also a hack to force an update without formally implementing INotifyCollectionChanged and INotifyPropertyChanged
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button element as object which sent this clickEvent</param>
+        /// <param name="e">Eventargs</param>
         private void BookingsDelete(object sender, RoutedEventArgs e)
         {
             if (sender is null)
